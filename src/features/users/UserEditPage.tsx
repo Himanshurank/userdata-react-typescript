@@ -1,7 +1,12 @@
 import React from "react";
+import UserForm from "./UserForm";
 
 const UserEditPage: React.FC = () => {
-	return <div>user edit</div>;
+	return (
+		<>
+			<UserForm />
+		</>
+	);
 };
 
 export default UserEditPage;

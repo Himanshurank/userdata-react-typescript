@@ -1,17 +1,45 @@
-import { user, userAction } from "./userSlice";
+import { UserInfo, userAction } from "./userSlice";
 import { TypeDispatch } from "../../../store";
 
-export const getUsersList: any = () => {
+export const getUsersListAction: any = () => {
 	return async (dispatch: TypeDispatch) => {
 		const response = await fetch("http://localhost:8000/usersdata");
-		const resData: user[] = await response.json();
+		const resData: UserInfo[] = await response.json();
 		dispatch(userAction.addUserList(resData));
 	};
 };
 
-export const deleteUser: any = (id: number) => {
+export const addNewUserAction: any = (userInfo: UserInfo) => {
 	return async (dispatch: TypeDispatch) => {
-		const response = await fetch(`http://localhost:8000/usersdata1/${id}`, {
+		const response = await fetch("http://localhost:8000/usersdata", {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify(userInfo),
+		});
+		const resData = await response.json();
+		dispatch(userAction.addNewUser(resData));
+	};
+};
+
+export const updateUserAction: any = (userInfo: UserInfo, id: string) => {
+	return async (dispatch: TypeDispatch) => {
+		const response = await fetch(`http://localhost:8000/usersdata/${id}`, {
+			method: "PUT",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify(userInfo),
+		});
+		const resData = await response.json();
+		dispatch(userAction.updateUser(resData));
+	};
+};
+
+export const deleteUser: any = (id: string) => {
+	return async (dispatch: TypeDispatch) => {
+		const response = await fetch(`http://localhost:8000/usersdata/${id}`, {
 			method: "DELETE",
 		});
 		const resData = await response.json();

@@ -1,16 +1,14 @@
 import React from "react";
+import { InputField } from "../../features/users/UserForm";
 
-export interface InputProps {
-	placeHolder: string;
-	name: string;
-	type: string;
-}
-
-const Input: React.FC<InputProps> = (props: InputProps) => {
+const Input: React.FC<InputField> = (props: InputField) => {
 	return (
 		<>
-			<label htmlFor={props.name}>{props.placeHolder}</label>
-			<input name={props.name} id={props.name} type={props.type} />
+			<label className="text-blue-950 font-bold mb-1 mt-3" htmlFor={props.name}>
+				{props.placeHolder}
+			</label>
+			<input className="text-blue-950 mb-1 rounded-md w-full px-2 outline-none" value={props.value} name={props.name} id={props.name} type={props.type} placeholder={props.placeHolder} onChange={props.onchange} />
+			<p className="text-red-600 w-2/3 text-xs font-bold ml-6">{props.error}</p>
 		</>
 	);
 };

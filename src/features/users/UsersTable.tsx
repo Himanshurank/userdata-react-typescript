@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
-import { deleteUser, getUsersList } from "./userStore/userAction";
+import { deleteUser, getUsersListAction } from "./userStore/userAction";
 import { Link } from "react-router-dom";
-import { user } from "./userStore/userSlice";
 import { RootState } from "../../store";
+import { UserInfo } from "./userStore/userSlice";
 
 const UsersTable: React.FC = () => {
 	const dispatch = useDispatch();
@@ -12,28 +12,29 @@ const UsersTable: React.FC = () => {
 	const [isDelete, setIsDelete] = useState<boolean>(false);
 	const [deleteId, setDeleteId] = useState<number>();
 
-	const userList = useSelector((state: RootState) => state.users.userList);
+	const userList: UserInfo[] = useSelector((state: RootState) => state.users.userList);
 
 	useEffect(() => {
 		if (userList.length === 0) {
-			dispatch(getUsersList());
+			dispatch(getUsersListAction());
 		}
 	}, [dispatch, userList]);
 
-	const onDelete = (id: number) => {
+	const onDelete = (id: number): void => {
 		setIsDelete(true);
 		setDeleteId(id);
 	};
 
-	const onCancel = () => {
+	const onCancel = (): void => {
 		setIsDelete(false);
 	};
 
 	const delUser = (): void => {
 		dispatch(deleteUser(deleteId));
+		setIsDelete(false);
 	};
 
-	const renderData = userList.map((user: user, index: number) => {
+	const renderData: JSX.Element[] = userList.map((user: any, index: number) => {
 		return (
 			<tr key={user.id}>
 				<td className="p-2 border-2 border-blue-800 text-blue-950 font-medium text-lg">{index + 1}</td>

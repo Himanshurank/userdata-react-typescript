@@ -1,15 +1,15 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
-export interface user {
-	id: number;
+export interface UserInfo {
 	name: string;
 	email: string;
-	phone: number;
-	age: number;
+	phone: string;
+	age: string;
+	id?: string;
 }
 
 export interface UserState {
-	userList: user[] | never[];
+	userList: UserInfo[];
 }
 
 const initialState: UserState = { userList: [] };
@@ -18,11 +18,18 @@ const userSlice = createSlice({
 	name: "users",
 	initialState,
 	reducers: {
-		addUserList: (state: UserState, action: PayloadAction<user[]>) => {
+		addUserList: (state: UserState, action: PayloadAction<UserInfo[]>) => {
 			state.userList = action.payload;
 		},
-		deleteUser: (state: UserState, action: PayloadAction<user>) => {
-			const removedUser: user[] = state.userList.filter((user: any) => user.id !== action.payload);
+		addNewUser: (state: UserState, action: PayloadAction<UserInfo>) => {
+			state.userList.push(action.payload);
+		},
+		updateUser: (state, action: PayloadAction<UserInfo>) => {
+			const existingUserIndex = state.userList.findIndex((user) => user.id === action.payload.id);
+			state.userList[existingUserIndex] = action.payload;
+		},
+		deleteUser: (state: UserState, action: PayloadAction<string>) => {
+			const removedUser: UserInfo[] = state.userList.filter((user: UserInfo) => user.id !== action.payload);
 			state.userList = removedUser;
 		},
 	},
