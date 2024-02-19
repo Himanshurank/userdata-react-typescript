@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { InputField } from "../users/UserForm";
-import Input from "../../shared/Components/Input";
+import Input from "../../shared/UI/Input";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { postAdminUser } from "../login/store/adminAction";

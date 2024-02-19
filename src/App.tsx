@@ -1,6 +1,6 @@
 import React from "react";
 import { Navigate, Route, RouterProvider, createBrowserRouter, createRoutesFromElements } from "react-router-dom";
-import RootLayout from "./RootLayout";
+import RootLayout from "./shared/RootLayout";
 import LoginPage from "./features/login/LoginPage";
 import HomePage from "./features/home/HomePage";
 import SignUpPage from "./features/signup/SignUpPage";

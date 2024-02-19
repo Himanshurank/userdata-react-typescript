@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import Navbar from "./shared/Components/Navbar";
+import Navbar from "./Navbar";
 import { Outlet, useNavigate } from "react-router-dom";
 
 const RootLayout: React.FC = () => {

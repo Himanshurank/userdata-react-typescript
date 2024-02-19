@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import Input from "../../shared/Components/Input";
+import Input from "../../shared/UI/Input";
 import { GrCaretNext, GrCaretPrevious } from "react-icons/gr";
 import { useDispatch } from "react-redux";
 import { addNewUserAction, getUsersListAction, updateUserAction } from "./userStore/userAction";
