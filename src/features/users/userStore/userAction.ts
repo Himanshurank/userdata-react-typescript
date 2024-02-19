@@ -1,5 +1,6 @@
-import { UserInfo, userAction } from "./userSlice";
+import { userAction } from "./userSlice";
 import { TypeDispatch } from "../../../store";
+import { UserInfo } from "../userInterface";
 
 export const getUsersListAction: any = () => {
 	return async (dispatch: TypeDispatch) => {
@@ -14,7 +15,7 @@ export const addNewUserAction: any = (userInfo: UserInfo) => {
 		const response = await fetch("http://localhost:8000/usersdata", {
 			method: "POST",
 			headers: {
-				"Content-Type": "application/json",
+				"Content-Type": "text/number",
 			},
 			body: JSON.stringify(userInfo),
 		});

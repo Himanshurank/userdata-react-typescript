@@ -2,18 +2,18 @@ import React, { useEffect, useState } from "react";
 import { InputField } from "../users/UserForm";
 import Input from "../../shared/Components/Input";
 import { Link, useNavigate } from "react-router-dom";
-import { Error } from "../login/LoginPage";
-import { AdminInfo, ICurrentAdmin } from "../login/store/adminSlice";
 import { useDispatch } from "react-redux";
 import { postAdminUser } from "../login/store/adminAction";
+import { Error, ICurrentAdmin } from "../login/loginInterface";
+import { SignUpInfo } from "./signupInterface";
 
 const SignUpPage: React.FC = () => {
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
 	const adminId: string | null = localStorage.getItem("adminId");
 
-	const signUpInitialState: AdminInfo = { email: "", password: "", username: "" };
-	const [adminInfo, setAdminInfo] = useState<AdminInfo>(signUpInitialState);
+	const signUpInitialState: SignUpInfo = { email: "", password: "", username: "" };
+	const [signUpInfo, setSignUpInfo] = useState<SignUpInfo>(signUpInitialState);
 	const [error, setError] = useState<Error>({});
 
 	useEffect(() => {
@@ -24,16 +24,16 @@ const SignUpPage: React.FC = () => {
 
 	const getSignUpInputValue = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const { name, value } = e.target;
-		setAdminInfo((prev) => ({
+		setSignUpInfo((prev) => ({
 			...prev,
 			[name]: value,
 		}));
 	};
 
 	const signUpInputProperties = [
-		{ placeHolder: "Enter Your Username", error: error.username ? error.username : "", value: adminInfo.username, name: "username", type: "text", onchange: getSignUpInputValue },
-		{ placeHolder: "Enter Your Email", error: error.email ? error.email : "", value: adminInfo.email, name: "email", type: "email", onchange: getSignUpInputValue },
-		{ placeHolder: "Enter Your Password", error: error.password ? error.password : "", value: adminInfo.password, name: "password", type: "password", onchange: getSignUpInputValue },
+		{ placeHolder: "Enter Your Username", error: error.username ? error.username : "", value: signUpInfo.username, name: "username", type: "text", onchange: getSignUpInputValue },
+		{ placeHolder: "Enter Your Email", error: error.email ? error.email : "", value: signUpInfo.email, name: "email", type: "email", onchange: getSignUpInputValue },
+		{ placeHolder: "Enter Your Password", error: error.password ? error.password : "", value: signUpInfo.password, name: "password", type: "password", onchange: getSignUpInputValue },
 	];
 
 	const formSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -42,13 +42,13 @@ const SignUpPage: React.FC = () => {
 		const emailPattern: RegExp = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 		const errorObj: Error = {};
 
-		if (adminInfo.email === "" || !adminInfo.email.match(emailPattern)) {
+		if (signUpInfo.email === "" || !signUpInfo.email.match(emailPattern)) {
 			errorObj.email = "Enter Valid Email";
 		}
-		if (adminInfo.password === "") {
+		if (signUpInfo.password === "") {
 			errorObj.password = "Enter Valid Password";
 		}
-		if (adminInfo.username === "") {
+		if (signUpInfo.username === "") {
 			errorObj.username = "Enter Valid Username";
 		}
 		if (Object.keys(error).length > 0) {
@@ -56,16 +56,16 @@ const SignUpPage: React.FC = () => {
 			return;
 		}
 
-		const existingAdmin: ICurrentAdmin[] = await getAdminEmail(adminInfo.email);
+		const existingAdmin: ICurrentAdmin[] = await getAdminEmail(signUpInfo.email);
 
 		if (existingAdmin.length > 0) {
 			setError({ authentication: "User Already Registered" });
-			setAdminInfo({ email: "", password: "" });
+			setSignUpInfo({ email: "", password: "" });
 			return;
 		} else {
-			dispatch(postAdminUser(adminInfo));
+			dispatch(postAdminUser(signUpInfo));
 		}
-		setAdminInfo(signUpInitialState);
+		setSignUpInfo(signUpInitialState);
 		setError({});
 		navigate("/login");
 	};

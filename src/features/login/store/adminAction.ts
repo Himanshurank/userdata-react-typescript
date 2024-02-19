@@ -1,7 +1,8 @@
 import { TypeDispatch } from "../../../store";
-import { AdminInfo, adminAction } from "./adminSlice";
+import { LoginInfo } from "../loginInterface";
+import { adminAction } from "./adminSlice";
 
-export const postAdminUser: any = (adminInfo: AdminInfo) => {
+export const postAdminUser: any = (adminInfo: LoginInfo) => {
 	return async () => {
 		await fetch("http://localhost:8000/loginUsers", {
 			method: "POST",
@@ -13,7 +14,7 @@ export const postAdminUser: any = (adminInfo: AdminInfo) => {
 	};
 };
 
-export const updateAdminUser: any = (adminInfo: AdminInfo, id: string) => {
+export const updateAdminUser: any = (adminInfo: LoginInfo, id: string) => {
 	return async () => {
 		await fetch(`http://localhost:8000/loginUsers/${id}`, {
 			method: "PUT",

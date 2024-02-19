@@ -4,7 +4,7 @@ import { Link, NavLink, useNavigate } from "react-router-dom";
 import { RootState } from "../../store";
 import { useDispatch } from "react-redux";
 import { getAdminUser } from "../../features/login/store/adminAction";
-import { ICurrentAdmin } from "../../features/login/store/adminSlice";
+import { ICurrentAdmin } from "../../features/login/loginInterface";
 
 const Navbar: React.FC = () => {
 	const navigate = useNavigate();

@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import { deleteUser, getUsersListAction } from "./userStore/userAction";
 import { Link } from "react-router-dom";
 import { RootState } from "../../store";
-import { UserInfo } from "./userStore/userSlice";
+import { UserInfo } from "./userInterface";
 
 const UsersTable: React.FC = () => {
 	const dispatch = useDispatch();
@@ -80,15 +80,17 @@ const UsersTable: React.FC = () => {
 				</table>
 			</div>
 			{isDelete && (
-				<div className="bg-blue-400 bg-opacity-50 rounded-md w-1/2 flex flex-col justify-center items-center absolute top-1/2 left-1/4 backdrop-filter backdrop-blur-2px">
-					<h2 className="font-bold text-blue-900 text-3xl my-6">Are Your Sure Delete This User?</h2>
-					<div className="my-6 space-x-20">
-						<button className=" px-6 py-2 bg-blue-500 text-white font-bold rounded-md hover:bg-blue-900" type="button" onClick={onCancel}>
-							Cancel
-						</button>
-						<button className="bg-red-800 font-bold px-6 py-2 rounded-md text-red-200 text-base hover:bg-red-400 hover:text-red-900" type="button" onClick={delUser}>
-							Delete
-						</button>
+				<div className=" w-screen h-screen absolute top-0 left-0  bg-black bg-opacity-20 rounded-md flex justify-center items-center ">
+					<div className="bg-blue-400 bg-opacity-50 rounded-md w-1/2 flex flex-col justify-center items-center backdrop-filter backdrop-blur-2px shadow-md">
+						<h2 className="font-bold text-blue-900 text-3xl my-6">Are Your Sure Delete This User?</h2>
+						<div className="my-6 space-x-20">
+							<button className=" px-6 py-2 bg-blue-500 text-white font-bold rounded-md hover:bg-blue-900" type="button" onClick={onCancel}>
+								Cancel
+							</button>
+							<button className="bg-red-800 font-bold px-6 py-2 rounded-md text-red-200 text-base hover:bg-red-400 hover:text-red-900" type="button" onClick={delUser}>
+								Delete
+							</button>
+						</div>
 					</div>
 				</div>
 			)}

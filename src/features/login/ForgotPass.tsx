@@ -2,17 +2,10 @@ import React, { useEffect, useState } from "react";
 import Input from "../../shared/Components/Input";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { Error } from "./LoginPage";
 import { InputField } from "../users/UserForm";
 import { getAdminEmail } from "../signup/SignUpPage";
 import { updateAdminUser } from "./store/adminAction";
-import { ICurrentAdmin } from "./store/adminSlice";
-
-interface IForgotPass {
-	email: string;
-	password: string;
-	confirmpassword: string;
-}
+import { Error, ICurrentAdmin, IForgotPass } from "./loginInterface";
 
 const ForgotPass: React.FC = () => {
 	const navigate = useNavigate();
@@ -31,7 +24,7 @@ const ForgotPass: React.FC = () => {
 		}
 	}, [navigate, adminId]);
 
-	const getInputsDetail = (e: any): void => {
+	const getInputsDetail = (e: React.ChangeEvent<HTMLInputElement>): void => {
 		const { name, value } = e.target;
 		setAdminInfo((prev) => ({
 			...prev,

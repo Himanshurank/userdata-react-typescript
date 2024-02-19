@@ -1,24 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { AdminInfo, ICurrentAdmin, adminAction } from "./store/adminSlice";
+import { adminAction } from "./store/adminSlice";
 import { InputField } from "../users/UserForm";
 import Input from "../../shared/Components/Input";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-
-export interface Error {
-	username?: string;
-	email?: string;
-	password?: string;
-	authentication?: string;
-	existing?: string;
-	confirmPassword?: string;
-	valid?: string;
-}
-
-interface ILogin {
-	email: string;
-	password: string;
-}
+import { Error, ICurrentAdmin, ILogin, LoginInfo } from "./loginInterface";
 
 const LoginPage: React.FC = () => {
 	const navigate = useNavigate();
@@ -107,7 +93,7 @@ const LoginPage: React.FC = () => {
 
 export default LoginPage;
 
-export const getAdmin = async (adminInfo: AdminInfo): Promise<ICurrentAdmin[]> => {
+export const getAdmin = async (adminInfo: LoginInfo): Promise<ICurrentAdmin[]> => {
 	const { email, password } = adminInfo;
 	const response = await fetch(`http://localhost:8000/loginUsers?email=${email}&password=${password}`);
 	const resData = await response.json();

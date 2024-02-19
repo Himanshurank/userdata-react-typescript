@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import Input from "../../shared/Components/Input";
 import { GrCaretNext, GrCaretPrevious } from "react-icons/gr";
-import { UserInfo } from "./userStore/userSlice";
 import { useDispatch } from "react-redux";
 import { addNewUserAction, getUsersListAction, updateUserAction } from "./userStore/userAction";
 import { useNavigate, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store";
+import { UserInfo } from "./userInterface";
 export interface InputField {
 	placeHolder: string;
 	error: string;
@@ -44,6 +44,12 @@ const UserForm: React.FC = () => {
 		if (existingUser) {
 			setUserInfo(existingUser);
 		}
+		if (userList.length !== 0 && updateId) {
+			if (!existingUser) {
+				navigate(`/users`);
+			}
+		}
+		/*eslint-disable*/
 	}, [updateId, userList, dispatch, existingUser]);
 
 	const getInputValue = (e: React.ChangeEvent<HTMLInputElement>): void => {
@@ -144,7 +150,7 @@ const UserForm: React.FC = () => {
 					{<GrCaretPrevious />}
 				</button>
 			)}
-			<form onSubmit={(e) => formSubmit(e)} className="w-1/3 h-3/4 bg-blue-200 flex flex-col justify-between items-center rounded-md shadow-md drop-shadow-md">
+			<form onSubmit={(e) => formSubmit(e)} className="w-1/3 h-3/4 bg-blue-200 flex flex-col justify-between items-center rounded-md shadow-md drop-shadow-md hover:bg-blue-300 hover:bg-opacity-50">
 				<div className="mt-6">
 					<h3 className="text-3xl font-bold text-blue-950">User Form</h3>
 				</div>

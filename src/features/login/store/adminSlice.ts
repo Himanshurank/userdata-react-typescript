@@ -1,17 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-
-export interface AdminInfo {
-	username?: string;
-	email: string;
-	password: string;
-}
-
-export interface ICurrentAdmin {
-	username: string;
-	email: string;
-	id: string;
-	password: string;
-}
+import { ICurrentAdmin } from "../loginInterface";
 
 const initialState: ICurrentAdmin = {
 	username: "",

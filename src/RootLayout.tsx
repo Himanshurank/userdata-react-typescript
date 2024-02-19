@@ -9,8 +9,6 @@ const RootLayout: React.FC = () => {
 	useEffect(() => {
 		if (!adminId) {
 			navigate("/login");
-		} else {
-			navigate("/home");
 		}
 	}, [adminId, navigate]);
 
