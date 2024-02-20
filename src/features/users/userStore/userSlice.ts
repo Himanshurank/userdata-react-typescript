@@ -1,24 +1,24 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { UserState, UserInfo } from "../userInterface";
+import { IUserState, IUserInfo } from "../userInterface";
 
-const initialState: UserState = { userList: [] };
+const initialState: IUserState = { userList: [] };
 
 const userSlice = createSlice({
 	name: "users",
 	initialState,
 	reducers: {
-		addUserList: (state: UserState, action: PayloadAction<UserInfo[]>) => {
+		addUserList: (state: IUserState, action: PayloadAction<IUserInfo[]>) => {
 			state.userList = action.payload;
 		},
-		addNewUser: (state: UserState, action: PayloadAction<UserInfo>) => {
+		addNewUser: (state: IUserState, action: PayloadAction<IUserInfo>) => {
 			state.userList.push(action.payload);
 		},
-		updateUser: (state, action: PayloadAction<UserInfo>) => {
+		updateUser: (state, action: PayloadAction<IUserInfo>) => {
 			const existingUserIndex = state.userList.findIndex((user) => user.id === action.payload.id);
 			state.userList[existingUserIndex] = action.payload;
 		},
-		deleteUser: (state: UserState, action: PayloadAction<string>) => {
-			const removedUser: UserInfo[] = state.userList.filter((user: UserInfo) => user.id !== action.payload);
+		deleteUser: (state: IUserState, action: PayloadAction<IUserInfo>) => {
+			const removedUser: IUserInfo[] = state.userList.filter((user: IUserInfo) => user.id !== action.payload.id);
 			state.userList = removedUser;
 		},
 	},

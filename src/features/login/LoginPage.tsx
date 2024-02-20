@@ -1,25 +1,26 @@
 import React, { useEffect, useState } from "react";
-import { adminAction } from "./store/adminSlice";
-import { InputField } from "../users/UserForm";
+import { addCurrentAdmin } from "./store/adminSlice";
 import Input from "../../shared/UI/Input";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { Error, ICurrentAdmin, ILogin, LoginInfo } from "./loginInterface";
+import { ILoginError, ICurrentAdmin, ILogin } from "./loginInterface";
+import { InputField } from "../../shared/UI/inputInterface";
+import { TypeDispatch } from "../../store";
 
 const LoginPage: React.FC = () => {
 	const navigate = useNavigate();
-	const dispatch = useDispatch();
+	const dispatch: TypeDispatch = useDispatch();
 
 	const adminInitialState: ILogin = { email: "", password: "" };
 	const [adminInfo, setAdminInfo] = useState<ILogin>(adminInitialState);
-	const [error, setError] = useState<Error>({});
+	const [error, setError] = useState<ILoginError>({});
 
 	const adminId = localStorage.getItem("adminId");
 	useEffect(() => {
 		if (adminId) {
 			navigate("/home");
 		}
-	}, [adminId, navigate]);
+	}, [navigate, adminId]);
 
 	const getLoginInputValue = (e: React.ChangeEvent<HTMLInputElement>): void => {
 		const { name, value } = e.target;
@@ -31,7 +32,7 @@ const LoginPage: React.FC = () => {
 
 	const formSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
-		const errorObj: Error = {};
+		const errorObj: ILoginError = {};
 		/*eslint-disable */
 		const emailPattern = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 		if (adminInfo.password === "") {
@@ -48,7 +49,7 @@ const LoginPage: React.FC = () => {
 
 		if (currentAdmin.length !== 0) {
 			localStorage.setItem("adminId", currentAdmin[0].id);
-			dispatch(adminAction.addCurrentAdmin(currentAdmin[0]));
+			dispatch(addCurrentAdmin(currentAdmin[0]));
 			navigate(`/home`);
 		} else {
 			setError({ authentication: "Invalid User" });
@@ -65,7 +66,7 @@ const LoginPage: React.FC = () => {
 
 	return (
 		<>
-			<div className="w-screen h-screen bgimage flex justify-center items-center">
+			<div className="w-screen h-screen flex justify-center items-center">
 				<form onSubmit={formSubmit} className="w-1/3 h-1/2 bg-blue-300 bg-opacity-50 backdrop-filter backdrop-blur-sm flex flex-col justify-between items-center rounded-md">
 					<h2 className="mt-6 text-3xl font-bold text-blue-950">Login User</h2>
 					<div className="flex flex-col justify-center items-center w-2/3 ">
@@ -93,7 +94,7 @@ const LoginPage: React.FC = () => {
 
 export default LoginPage;
 
-export const getAdmin = async (adminInfo: LoginInfo): Promise<ICurrentAdmin[]> => {
+export const getAdmin = async (adminInfo: ILogin): Promise<ICurrentAdmin[]> => {
 	const { email, password } = adminInfo;
 	const response = await fetch(`http://localhost:8000/loginUsers?email=${email}&password=${password}`);
 	const resData = await response.json();

@@ -1,11 +1,17 @@
-export interface UserInfo {
+export interface IUserInfo {
 	name: string;
 	email: string;
 	phone: string;
 	age: string;
-	id?: string;
+	id: string;
 }
 
-export interface UserState {
-	userList: UserInfo[];
+export interface IUserState {
+	userList: IUserInfo[];
+}
+export interface IUserError {
+	name?: string;
+	email?: string;
+	age?: string;
+	phone?: string;
 }

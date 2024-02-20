@@ -3,30 +3,21 @@ export interface ILogin {
 	password: string;
 }
 
-export interface IForgotPass {
-	email: string;
-	password: string;
-	confirmpassword: string;
+export interface IForgotPass extends ILogin {
+	confirmPassword: string;
 }
 
-export interface ICurrentAdmin {
-	username: string;
-	email: string;
+export interface ICurrentAdmin extends ILogin {
 	id: string;
-	password: string;
+	username: string;
 }
 
-export interface LoginInfo {
-	email: string;
-	password: string;
-}
-
-export interface Error {
+export interface ILoginError {
 	username?: string;
 	email?: string;
 	password?: string;
-	authentication?: string;
 	existing?: string;
+	authentication?: string;
 	confirmPassword?: string;
 	valid?: string;
 }

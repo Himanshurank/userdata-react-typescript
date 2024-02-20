@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { ICurrentAdmin } from "../loginInterface";
 
 const initialState: ICurrentAdmin = {
@@ -12,11 +12,11 @@ const adminSlice = createSlice({
 	name: "admin",
 	initialState,
 	reducers: {
-		addCurrentAdmin: (state, action) => {
+		addCurrentAdmin: (state, action: PayloadAction<ICurrentAdmin>) => {
 			return { ...action.payload };
 		},
 	},
 });
 
-export const adminAction = adminSlice.actions;
+export const { addCurrentAdmin } = adminSlice.actions;
 export default adminSlice.reducer;

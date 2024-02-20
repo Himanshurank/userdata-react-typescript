@@ -1,9 +1,9 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import { RootState } from "../../store";
+import { IRootState } from "../../shared/commonInterface";
 
 const HomePage: React.FC = () => {
-	const adminDetail = useSelector((state: RootState) => state.admin);
+	const adminDetail = useSelector((state: IRootState) => state.admin);
 	return (
 		<div className="w-screen h-90vh flex flex-col justify-center items-center">
 			<h2 className="text-4xl font-bold text-blue-950 mb-6">

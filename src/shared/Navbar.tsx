@@ -1,16 +1,17 @@
 import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { Link, NavLink, useNavigate } from "react-router-dom";
-import { RootState } from "../store";
 import { useDispatch } from "react-redux";
 import { getAdminUser } from "../features/login/store/adminAction";
 import { ICurrentAdmin } from "../features/login/loginInterface";
+import { IRootState } from "./commonInterface";
+import { TypeDispatch } from "../store";
 
 const Navbar: React.FC = () => {
 	const navigate = useNavigate();
-	const dispatch = useDispatch();
+	const dispatch: TypeDispatch = useDispatch();
 
-	const adminDetail: ICurrentAdmin = useSelector((state: RootState) => state.admin);
+	const adminDetail: ICurrentAdmin = useSelector((state: IRootState) => state.admin);
 
 	useEffect(() => {
 		const adminId: string | null = localStorage.getItem("adminId");

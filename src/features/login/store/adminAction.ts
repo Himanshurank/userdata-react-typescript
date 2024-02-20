@@ -1,9 +1,14 @@
 import { TypeDispatch } from "../../../store";
-import { LoginInfo } from "../loginInterface";
-import { adminAction } from "./adminSlice";
+import { ILogin } from "../loginInterface";
+import { addCurrentAdmin } from "./adminSlice";
+// import { RootState } from "../../../shared/commonInterface";
+// import { Action, ThunkAction } from "@reduxjs/toolkit";
 
-export const postAdminUser: any = (adminInfo: LoginInfo) => {
-	return async () => {
+// type AddCurrentAdminAction = ReturnType<typeof addCurrentAdmin>;
+// type ThankType<R, S extends Action> = ThunkAction<void, RootState, R, S>;
+
+export const postAdminUser = (adminInfo: ILogin) => {
+	return async (): Promise<void> => {
 		await fetch("http://localhost:8000/loginUsers", {
 			method: "POST",
 			headers: {
@@ -14,8 +19,8 @@ export const postAdminUser: any = (adminInfo: LoginInfo) => {
 	};
 };
 
-export const updateAdminUser: any = (adminInfo: LoginInfo, id: string) => {
-	return async () => {
+export const updateAdminUser = (adminInfo: ILogin, id: string) => {
+	return async (): Promise<void> => {
 		await fetch(`http://localhost:8000/loginUsers/${id}`, {
 			method: "PUT",
 			headers: {
@@ -26,12 +31,12 @@ export const updateAdminUser: any = (adminInfo: LoginInfo, id: string) => {
 	};
 };
 
-export const getAdminUser: any = (id: string) => {
-	return async (dispatch: TypeDispatch) => {
+export const getAdminUser = (id: string) => {
+	return async (dispatch: TypeDispatch): Promise<void> => {
 		const response = await fetch(`http://localhost:8000/loginUsers/${id}`);
 		const resData = await response.json();
 		if (resData) {
-			dispatch(adminAction.addCurrentAdmin(resData));
+			dispatch(addCurrentAdmin(resData));
 		}
 	};
 };

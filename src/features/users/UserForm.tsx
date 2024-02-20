@@ -5,37 +5,24 @@ import { useDispatch } from "react-redux";
 import { addNewUserAction, getUsersListAction, updateUserAction } from "./userStore/userAction";
 import { useNavigate, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { RootState } from "../../store";
-import { UserInfo } from "./userInterface";
-export interface InputField {
-	placeHolder: string;
-	error: string;
-	name: string;
-	type: string;
-	value: string | undefined;
-	onchange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-}
-
-interface Error {
-	name?: string;
-	email?: string;
-	age?: string;
-	phone?: string;
-}
+import { IUserError, IUserInfo } from "./userInterface";
+import { InputField } from "../../shared/UI/inputInterface";
+import { IRootState } from "../../shared/commonInterface";
+import { TypeDispatch } from "../../store";
 
 const UserForm: React.FC = () => {
-	const dispatch = useDispatch();
+	const dispatch: TypeDispatch = useDispatch();
 	const navigate = useNavigate();
 	const { updateId } = useParams();
 
-	const userInitialState: UserInfo = { name: "", age: "", email: "", phone: "" };
-	const [userInfo, setUserInfo] = useState<UserInfo>(userInitialState);
-	const [error, setError] = useState<Error>({});
+	const userInitialState: IUserInfo = { id: "", name: "", age: "", email: "", phone: "" };
+	const [userInfo, setUserInfo] = useState<IUserInfo>(userInitialState);
+	const [error, setError] = useState<IUserError>({});
 
-	const userList: UserInfo[] = useSelector((state: RootState) => state.users.userList);
+	const userList: IUserInfo[] = useSelector((state: IRootState) => state.users.userList);
 
 	const currentUpdateUserIndex: number = userList.findIndex((user) => user.id === updateId);
-	const existingUser: UserInfo | undefined = userList.find((user) => user.id === updateId);
+	const existingUser: IUserInfo | undefined = userList.find((user) => user.id === updateId);
 
 	useEffect(() => {
 		if (updateId && userList.length === 0) {
@@ -62,7 +49,7 @@ const UserForm: React.FC = () => {
 
 	const formSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
 		e.preventDefault();
-		const error: Error = {};
+		const error: IUserError = {};
 		/*eslint-disable */
 		const emailPattern: RegExp = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 		if (userInfo.name === "") {
@@ -78,10 +65,10 @@ const UserForm: React.FC = () => {
 			error.phone = "Enter Valid Phone";
 		}
 
-		const alreadyAddedUser: UserInfo[] = userList.filter((user) => user.email == userInfo.email || user.phone == userInfo.phone);
+		const alreadyAddedUser: IUserInfo[] = userList.filter((user) => user.email == userInfo.email || user.phone == userInfo.phone);
 
 		if (updateId) {
-			alreadyAddedUser.map((validUser: UserInfo) => {
+			alreadyAddedUser.map((validUser: IUserInfo) => {
 				if (validUser.id != updateId) {
 					if (userInfo.email == validUser.email) {
 						error.email = "E-mail Already Added";
@@ -97,7 +84,7 @@ const UserForm: React.FC = () => {
 			}
 			dispatch(updateUserAction(userInfo, updateId));
 		} else {
-			alreadyAddedUser.map((validUser: UserInfo) => {
+			alreadyAddedUser.map((validUser: IUserInfo) => {
 				if (userInfo.email === validUser.email) {
 					error.email = "E-mail Already Added";
 				}
@@ -119,10 +106,10 @@ const UserForm: React.FC = () => {
 	};
 
 	const inputFieldProperties: InputField[] = [
-		{ placeHolder: "Enter Your Name", error: error.name ? error.name : "", value: userInfo.name, name: "name", type: "text", onchange: (e) => getInputValue(e) },
-		{ placeHolder: "Enter Your Age", error: error.age ? error.age : "", value: userInfo.age, name: "age", type: "number", onchange: (e) => getInputValue(e) },
-		{ placeHolder: "Enter Your E-mail", error: error.email ? error.email : "", value: userInfo.email, name: "email", type: "text", onchange: (e) => getInputValue(e) },
-		{ placeHolder: "Enter Your Phone", error: error.phone ? error.phone : "", value: userInfo.phone, name: "phone", type: "number", onchange: (e) => getInputValue(e) },
+		{ placeHolder: "Enter Your Name", error: error.name ? error.name : "", value: userInfo.name, name: "name", type: "text", onchange: getInputValue },
+		{ placeHolder: "Enter Your Age", error: error.age ? error.age : "", value: userInfo.age, name: "age", type: "number", onchange: getInputValue },
+		{ placeHolder: "Enter Your E-mail", error: error.email ? error.email : "", value: userInfo.email, name: "email", type: "text", onchange: getInputValue },
+		{ placeHolder: "Enter Your Phone", error: error.phone ? error.phone : "", value: userInfo.phone, name: "phone", type: "number", onchange: getInputValue },
 	];
 
 	const goPreviousUser = (): void => {

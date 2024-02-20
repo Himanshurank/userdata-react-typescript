@@ -1,20 +1,21 @@
 import React, { useEffect, useState } from "react";
-import { InputField } from "../users/UserForm";
 import Input from "../../shared/UI/Input";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { postAdminUser } from "../login/store/adminAction";
-import { Error, ICurrentAdmin } from "../login/loginInterface";
-import { SignUpInfo } from "./signupInterface";
+import { ICurrentAdmin } from "../login/loginInterface";
+import { ISignUpError, ISignUpInfo } from "./signupInterface";
+import { InputField } from "../../shared/UI/inputInterface";
+import { TypeDispatch } from "../../store";
 
 const SignUpPage: React.FC = () => {
 	const navigate = useNavigate();
-	const dispatch = useDispatch();
+	const dispatch: TypeDispatch = useDispatch();
 	const adminId: string | null = localStorage.getItem("adminId");
 
-	const signUpInitialState: SignUpInfo = { email: "", password: "", username: "" };
-	const [signUpInfo, setSignUpInfo] = useState<SignUpInfo>(signUpInitialState);
-	const [error, setError] = useState<Error>({});
+	const signUpInitialState: ISignUpInfo = { email: "", password: "", username: "" };
+	const [signUpInfo, setSignUpInfo] = useState<ISignUpInfo>(signUpInitialState);
+	const [error, setError] = useState<ISignUpError>({});
 
 	useEffect(() => {
 		if (adminId) {
@@ -40,7 +41,7 @@ const SignUpPage: React.FC = () => {
 		e.preventDefault();
 		/* eslint-disable */
 		const emailPattern: RegExp = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-		const errorObj: Error = {};
+		const errorObj: ISignUpError = {};
 
 		if (signUpInfo.email === "" || !signUpInfo.email.match(emailPattern)) {
 			errorObj.email = "Enter Valid Email";
@@ -71,7 +72,7 @@ const SignUpPage: React.FC = () => {
 	};
 
 	return (
-		<div className="w-screen h-screen bgimage flex justify-center items-center">
+		<div className="w-screen h-screen flex justify-center items-center">
 			<form onSubmit={formSubmit} className="w-1/3 h-1/2 bg-blue-300 bg-opacity-50 backdrop-filter backdrop-blur-sm flex flex-col justify-between items-center rounded-md">
 				<h2 className="mt-6 text-3xl font-bold text-blue-950">Register </h2>
 				<div className="flex flex-col justify-center items-center w-2/3 ">

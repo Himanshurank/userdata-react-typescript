@@ -1,5 +1,5 @@
 import React from "react";
-import { InputField } from "../../features/users/UserForm";
+import { InputField } from "./inputInterface";
 
 const Input: React.FC<InputField> = (props: InputField) => {
 	return (

@@ -2,21 +2,22 @@ import React, { useEffect, useState } from "react";
 import Input from "../../shared/UI/Input";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { InputField } from "../users/UserForm";
 import { getAdminEmail } from "../signup/SignUpPage";
 import { updateAdminUser } from "./store/adminAction";
-import { Error, ICurrentAdmin, IForgotPass } from "./loginInterface";
+import { ILoginError, ICurrentAdmin, IForgotPass } from "./loginInterface";
+import { InputField } from "../../shared/UI/inputInterface";
+import { TypeDispatch } from "../../store";
 
 const ForgotPass: React.FC = () => {
 	const navigate = useNavigate();
-	const dispatch = useDispatch();
+	const dispatch: TypeDispatch = useDispatch();
 
 	const adminId = localStorage.getItem("adminId");
-	const inputInitialState = { email: "", password: "", confirmpassword: "" };
+	const inputInitialState = { email: "", password: "", confirmPassword: "" };
 
 	const [adminInfo, setAdminInfo] = useState<IForgotPass>(inputInitialState);
 	const [isEmailValid, setIsEmailValid] = useState<boolean>(false);
-	const [error, setError] = useState<Error>({});
+	const [error, setError] = useState<ILoginError>({});
 
 	useEffect(() => {
 		if (adminId) {
@@ -56,7 +57,7 @@ const ForgotPass: React.FC = () => {
 				setError({ password: "Enter Valid Password" });
 				return;
 			}
-			if (adminInfo.password !== adminInfo.confirmpassword) {
+			if (adminInfo.password !== adminInfo.confirmPassword) {
 				setError({ confirmPassword: "Password Not Match" });
 				return;
 			}
@@ -83,7 +84,7 @@ const ForgotPass: React.FC = () => {
 
 	const forgotPasswordProperties: InputField[] = [
 		{ name: "password", placeHolder: "Enter Password", value: adminInfo.password, type: "password", onchange: getInputsDetail, error: error.password ? error.password : "" },
-		{ name: "confirmpassword", placeHolder: "Re-Enter Password", value: adminInfo.confirmpassword, type: "password", onchange: getInputsDetail, error: error.confirmPassword ? error.confirmPassword : "" },
+		{ name: "confirmPassword", placeHolder: "Re-Enter Password", value: adminInfo.confirmPassword, type: "password", onchange: getInputsDetail, error: error.confirmPassword ? error.confirmPassword : "" },
 	];
 
 	return (
@@ -92,11 +93,11 @@ const ForgotPass: React.FC = () => {
 				<h2 className="mt-6 text-3xl font-bold text-blue-950">Forgot Password</h2>
 				<div className="flex flex-col justify-center items-center w-2/3 ">
 					{forgotEmailProperties.map((input: InputField) => {
-						return <Input key={input.name} error={input.error} value={input.value} placeHolder={input.placeHolder} name={input.name} type={input.type} onchange={(e: any) => input.onchange(e)} />;
+						return <Input key={input.name} error={input.error} value={input.value} placeHolder={input.placeHolder} name={input.name} type={input.type} onchange={(e) => input.onchange(e)} />;
 					})}
 					{isEmailValid &&
 						forgotPasswordProperties.map((input: InputField) => {
-							return <Input key={input.name} error={input.error} value={input.value} placeHolder={input.placeHolder} name={input.name} type={input.type} onchange={(e: any) => input.onchange(e)} />;
+							return <Input key={input.name} error={input.error} value={input.value} placeHolder={input.placeHolder} name={input.name} type={input.type} onchange={(e) => input.onchange(e)} />;
 						})}
 
 					{error.valid && <p>{error.valid}</p>}

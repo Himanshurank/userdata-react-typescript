@@ -3,16 +3,17 @@ import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { deleteUser, getUsersListAction } from "./userStore/userAction";
 import { Link } from "react-router-dom";
-import { RootState } from "../../store";
-import { UserInfo } from "./userInterface";
+import { IUserInfo } from "./userInterface";
+import { IRootState } from "../../shared/commonInterface";
+import { TypeDispatch } from "../../store";
 
 const UsersTable: React.FC = () => {
-	const dispatch = useDispatch();
+	const dispatch: TypeDispatch = useDispatch();
 
 	const [isDelete, setIsDelete] = useState<boolean>(false);
-	const [deleteId, setDeleteId] = useState<number>();
+	const [deleteId, setDeleteId] = useState<string | null>(null);
 
-	const userList: UserInfo[] = useSelector((state: RootState) => state.users.userList);
+	const userList: IUserInfo[] = useSelector((state: IRootState) => state.users.userList);
 
 	useEffect(() => {
 		if (userList.length === 0) {
@@ -20,13 +21,14 @@ const UsersTable: React.FC = () => {
 		}
 	}, [dispatch, userList]);
 
-	const onDelete = (id: number): void => {
+	const onDelete = (id: string): void => {
 		setIsDelete(true);
 		setDeleteId(id);
 	};
 
 	const onCancel = (): void => {
 		setIsDelete(false);
+		setDeleteId(null);
 	};
 
 	const delUser = (): void => {
@@ -34,7 +36,7 @@ const UsersTable: React.FC = () => {
 		setIsDelete(false);
 	};
 
-	const renderData: JSX.Element[] = userList.map((user: any, index: number) => {
+	const renderData = userList.map<JSX.Element>((user: IUserInfo, index: number) => {
 		return (
 			<tr key={user.id}>
 				<td className="p-2 border-2 border-blue-800 text-blue-950 font-medium text-lg">{index + 1}</td>
@@ -64,7 +66,7 @@ const UsersTable: React.FC = () => {
 				</Link>
 			</div>
 
-			<div className="p-5">
+			<div className="p-5 h-[70vh] overflow-scroll">
 				<table className="bg-blue-200 w-full rounded-md text-center overflow-hidden">
 					<thead className="bg-blue-600 text-white p-2">
 						<tr>
